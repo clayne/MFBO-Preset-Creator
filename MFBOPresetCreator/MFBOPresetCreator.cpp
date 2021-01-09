@@ -80,14 +80,14 @@ void MFBOPresetCreator::setupMenuBar()
   auto lRelaunchApp{new QAction(this)};
   lRelaunchApp->setObjectName("action_quick_relaunch");
   lRelaunchApp->setText(tr("Quick relaunch"));
-  lRelaunchApp->setShortcut(QKeySequence(Qt::CTRL + Qt::Key_F5));
+  lRelaunchApp->setShortcut(QKeySequence(Qt::CTRL | +Qt::Key_F5));
   lRelaunchApp->setIcon(QIcon(QPixmap(QString(":/%1/refresh").arg(lIconFolder))));
   lFile->addAction(lRelaunchApp);
 
   // Action: Exit
   auto lExitApp{new QAction(this)};
   lExitApp->setText(tr("Exit"));
-  lExitApp->setShortcut(QKeySequence(Qt::ALT + Qt::Key_F4));
+  lExitApp->setShortcut(QKeySequence(Qt::ALT | +Qt::Key_F4));
   lExitApp->setIcon(QIcon(QPixmap(QString(":/%1/cross").arg(lIconFolder))));
   lFile->addAction(lExitApp);
 
@@ -99,21 +99,21 @@ void MFBOPresetCreator::setupMenuBar()
   // Action: Assisted conversion
   auto lOpenAssiConv{new QAction(this)};
   lOpenAssiConv->setText(tr("Assisted Conversion"));
-  lOpenAssiConv->setShortcut(QKeySequence(Qt::CTRL + Qt::Key_T));
+  lOpenAssiConv->setShortcut(QKeySequence(Qt::CTRL | +Qt::Key_T));
   lOpenAssiConv->setIcon(QIcon(QPixmap(QString(":/%1/pencil").arg(lIconFolder))));
   lTools->addAction(lOpenAssiConv);
 
   // Submenu: BodySlide Presets' Retargeting
   auto lRetaToolsSubmenu{new QAction(this)};
   lRetaToolsSubmenu->setText(tr("BodySlide Presets' Retargeting"));
-  lRetaToolsSubmenu->setShortcut(QKeySequence(Qt::CTRL + Qt::Key_Y));
+  lRetaToolsSubmenu->setShortcut(QKeySequence(Qt::CTRL | +Qt::Key_Y));
   lRetaToolsSubmenu->setIcon(QIcon(QPixmap(QString(":/%1/arrow-up").arg(lIconFolder))));
   lTools->addAction(lRetaToolsSubmenu);
 
   // Action: Settings
   auto lOpenSettings{new QAction(this)};
   lOpenSettings->setText(tr("Settings"));
-  lOpenSettings->setShortcut(QKeySequence(Qt::CTRL + Qt::Key_O));
+  lOpenSettings->setShortcut(QKeySequence(Qt::CTRL | +Qt::Key_O));
   lOpenSettings->setIcon(QIcon(QPixmap(QString(":/%1/cog").arg(lIconFolder))));
   lTools->addAction(lOpenSettings);
 
@@ -127,14 +127,14 @@ void MFBOPresetCreator::setupMenuBar()
   // Action: Check for updates
   auto lOpenUpdate{new QAction(this)};
   lOpenUpdate->setText(tr("Check for updates") + lUpdateAvailableText);
-  lOpenUpdate->setShortcut(QKeySequence(Qt::CTRL + Qt::Key_U));
+  lOpenUpdate->setShortcut(QKeySequence(Qt::CTRL | +Qt::Key_U));
   lOpenUpdate->setIcon(QIcon(QPixmap(QString(":/%1/cloud-search").arg(lIconFolder))));
   lHelp->addAction(lOpenUpdate);
 
   // Action: About
   auto lOpenAbout{new QAction(this)};
   lOpenAbout->setText(tr("About"));
-  lOpenAbout->setShortcut(QKeySequence(Qt::CTRL + Qt::Key_I));
+  lOpenAbout->setShortcut(QKeySequence(Qt::CTRL | +Qt::Key_I));
   lOpenAbout->setIcon(QIcon(QPixmap(QString(":/%1/info-circle").arg(lIconFolder))));
   lHelp->addAction(lOpenAbout);
 
@@ -412,6 +412,7 @@ void MFBOPresetCreator::pageFetched(const QString& aResult)
     QJsonDocument doc{QJsonDocument::fromJson(aResult.toUtf8())};
     QJsonObject obj{doc.object()};
     auto lTagName{obj["tag_name"].toString()};
+    Utils::cleanBreaksString(lTagName);
     auto lCurrentVersion{Utils::getApplicationVersion()};
 
 #ifndef DEBUG

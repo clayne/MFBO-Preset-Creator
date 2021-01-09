@@ -16,10 +16,6 @@ int main(int argc, char* argv[])
     lMainApplication.setApplicationDisplayName("MFBOPC (v." + Utils::getApplicationVersion() + ")");
     lMainApplication.setApplicationVersion(Utils::getApplicationVersion());
     lMainApplication.setWindowIcon(QIcon(QPixmap(":/application/icon")));
-    lMainApplication.setAttribute(Qt::AA_EnableHighDpiScaling);
-
-    // Set the codec
-    QTextCodec::setCodecForLocale(QTextCodec::codecForName("UTF-8"));
 
     // Embed custom fonts
     QFontDatabase::addApplicationFont(":/fonts/Roboto");
@@ -47,7 +43,7 @@ int main(int argc, char* argv[])
 
     // Apply default Qt language and translation
     auto lQtBaseTranslator{new QTranslator()};
-    if (lQtBaseTranslator->load("qt_" + lLanguageToSet + ".qm", QLibraryInfo::location(QLibraryInfo::TranslationsPath)))
+    if (lQtBaseTranslator->load("qt_" + lLanguageToSet + ".qm", QLibraryInfo::path(QLibraryInfo::TranslationsPath)))
     {
       lMainApplication.installTranslator(lQtBaseTranslator);
     }
